@@ -1,0 +1,60 @@
+import random
+
+def box_layout():
+    box = []
+    for i in range(3):
+        row = []
+        for j in range(3):
+            row.append("?")
+        box.append(row)
+    print("================================")
+    return box  
+
+def game_mechanics(box):
+    game = True
+    
+    #ngubah salah satu bagian menjadi bomb
+    bomb_inRow = random.randint(0, 2)
+    bomb_inColumn = random.randint(0, 2)
+    
+    while game:
+        
+        if game:
+            for row in box:
+                print(row)
+            print("================================")
+            
+        guessed_row = int(input("Enter row (0-2): "))  
+        guessed_column = int(input("Enter column (0-2): "))  
+        
+        if guessed_row >2 or guessed_column>2:
+            print("Out Of Range!!")
+        elif guessed_row != bomb_inRow or guessed_column != bomb_inColumn:  
+            if box[guessed_row][guessed_column] == 'X':
+                print("This part has been guessed before. Try again.")
+            else:
+                print("Well, there's no bomb here. Congrats!")
+                box[guessed_row][guessed_column] = 'O'
+                guessed_all = True
+                for row in box:
+                    if 'X' not in row:
+                        guessed_all = False
+                        break
+                if guessed_all:
+                    print("Congratulations, you have successfully guessed all the parts and found no bombs.")
+                    game = False
+        else:
+            print("Yikes, you found a bomb. The end :(")
+            box[guessed_row][guessed_column] = 'X'
+            game = False
+    
+    for row in box:
+        print(row)
+    print("================================")
+
+def main():
+    box = box_layout()  
+    game_mechanics(box)
+
+if __name__ == '__main__':
+    main()
